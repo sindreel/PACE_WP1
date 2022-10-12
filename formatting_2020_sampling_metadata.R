@@ -21,6 +21,8 @@ sampling_sheets_2020$Stasjon[sampling_sheets_2020$location=='Austfjorden_heroyos
 sampling_sheets_2020$Stasjon[sampling_sheets_2020$location=='Balestrand'] <- 'Balestrand'
 #sampling_sheets_2020$Stasjon[sampling_sheets_2020$location=='Straumfjorden, Hitra'] <- 'Hitra'
 
+summary(as.factor(sampling_sheets_2020$location))
+
 sampling_sheets_2020$key <- interaction(sampling_sheets_2020$Stasjon, sampling_sheets_2020$total_lenght_mm, sampling_sheets_2020$weight_g)
 tmp <- sampling_sheets_2020[duplicated(sampling_sheets_2020$key), ]
 

@@ -27,3 +27,4 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 data
+gadm36_NOR_0_sp.rds

@@ -24,6 +24,8 @@ str(NALO_2021_keka)
 colnames(NALO_2021_keka)[1] <- "ID"
 colnames(NALO_2021_keka)[13] <- "Skjellprove"
 
+
+
 meta <- plyr::rbind.fill(NALO_2021, NALO_2021_keka)
 
 #select the correct Hitra-samples
@@ -346,6 +348,25 @@ meta$ntnu_freezer_location[meta$Stasjon=='Herdlafjord'
 
 
 ggsave("./data/modified_data/NALO_2020_2021_SAMPLES.tiff", p1, units="cm", width=30, height=30, dpi=300, compression = 'lzw')
+
+
+
+###################################################
+#Add 2022-data
+###################################################
+
+
+str(meta)
+
+NALO_2022 <- read.csv("./data/raw_data/NALO_2022.csv", sep = ";")
+str(NALO_2022)
+
+colnames(meta)
+colnames(NALO_2022)
+NALO_2022$gill_sample_id <- NALO_2022$ID
+meta <- rbind.fill(meta, NALO_2022)
+meta <- meta[c("ID","Dato","Stasjon","Breddegrad","Lengdegrad","Art","Redskap","Maskestr","Skjellprove","Vekt","Lengde_gaf","Lengde_tot","Lagret_sep_2021","location_jan22","ntnu_freezer_location","nalo_id","gill_sample_id")]
+str(meta)
 
 write.csv(meta, "./data/modified_data/meta.csv", row.names = FALSE)
 

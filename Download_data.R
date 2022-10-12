@@ -26,6 +26,16 @@ dir.create("data/modified_data", showWarnings = FALSE, recursive = TRUE)
 URL_NALO_2021 <- "https://ntnu.box.com/shared/static/xgy66pt4eux3jolqt3avmskaby7o3jrk.csv"
 download.file(url=URL_NALO_2021,destfile="./data/raw_data/NALO_2021.csv")  
 
+#All samples 2020-2022, uploaded 12.10.22:
+URL_meta_complete <- "https://ntnu.box.com/shared/static/31ag1rxhnwusysqtxejpfzfthy2eez00.csv"
+download.file(url=URL_meta_complete,destfile="./data/raw_data/meta_complete.csv")  
+
+
+#MHC locations from Sten, uploaded 12.10.22:
+URL_MHC_locations_steen <- "https://ntnu.box.com/shared/static/iw4vtets4rhd5uexinach6hpu8hbn2zs.csv"
+download.file(url=URL_MHC_locations_steen,destfile="./data/raw_data/MHC_locations_from_sten.csv") 
+
+
 
 #Additional NALO data from missing individuals from Keka 10.01.2021:
 URL_NALO_2021_keka <- "https://ntnu.box.com/shared/static/8ynblzadzj6rv23a6gfgdq13gy2ylnc6.csv"
@@ -39,3 +49,5 @@ download.file(url=URL_NALO_2020,destfile="./data/raw_data/NALO_2020.csv")
 #PACE_sampling_sheets_2020
 URL_PACE_sampling_sheets_2020 <- "https://ntnu.box.com/shared/static/b7uonhrnjopblutuq6d5dewigv6un534.csv"
 download.file(url=URL_PACE_sampling_sheets_2020,destfile="./data/raw_data/PACE_WP1_Sampling_sheets_2020.csv")  
+
+
