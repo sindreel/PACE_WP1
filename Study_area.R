@@ -7,7 +7,7 @@ rm(list = ls(all = TRUE))
 library(ggplot2)
 library(gridExtra)
 
-meta <- read.csv("./data/modified_data/meta.csv", sep = ",")
+meta <- read.csv("./data/modified_data/meta_complete_141122.csv", sep = ";")
 mhc_rivers <- read.csv("./data/modified_data/MCH_locations_from_sten.csv", sep = ";")
 
 
@@ -36,8 +36,8 @@ library(utils)
 
 library(raster)
 # Set working folder (to store data files)
-setwd("./data/shapefiles")
-getwd()
+#setwd("./data/shapefiles")
+#getwd()
 # Download map data - Country shapefile
 norway <- getData("GADM", country="NO", level=0)
 
@@ -175,18 +175,20 @@ library(dplyr)
 summary(as.factor(meta$Stasjon))
 meta$Stasjon[meta$Stasjon=='Ytre Årdalsfjord'] <- "Ytre_Årdalsfjord"
 meta$Stasjon[meta$Stasjon=='Indre Etne'] <- "Etne"
-
-tmp <- meta %>%
+str(meta)
+tmp <- meta[meta$Lengde_tot>199,] %>%
   group_by(Stasjon) %>%
-  dplyr::summarise (Lengdegrad, Breddegrad, sample_size = n())
+  dplyr::summarise (Lengdegrad, Breddegrad, sample_size = n(), min_size = min(Lengde_tot))
 tmp <- tmp[!duplicated(tmp$Stasjon), ]
+tmp <- tmp[tmp$sample_size>19,]
+tmp <- tmp[!tmp$Stasjon=='Sandnesfjord',]
 tmp$label <- paste(tmp$Stasjon, ", n = ", tmp$sample_size, sep = "")
-tmp$label[tmp$Stasjon=='Nordfjord'] <- ''
-tmp$label[tmp$Stasjon=='Måløy'] <- 'Måløy and Nordfjord, n = 79'
-tmp$label[tmp$Stasjon=='Oksfjordhamn'] <- ''
-tmp$label[tmp$Stasjon=='Straumfjord'] <- ''
-tmp$label[tmp$Stasjon=='Oksfjord'] <- 'Oksfjord og Straumfjord, n = 24'
-tmp$label[tmp$Stasjon=='Sandnesfjord'] <- 'Sandnesfjord, n = 18'
+#tmp$label[tmp$Stasjon=='Nordfjord'] <- ''
+#tmp$label[tmp$Stasjon=='Måløy'] <- 'Måløy and Nordfjord, n = 79'
+#tmp$label[tmp$Stasjon=='Oksfjordhamn'] <- ''
+#tmp$label[tmp$Stasjon=='Straumfjord'] <- ''
+#tmp$label[tmp$Stasjon=='Oksfjord'] <- 'Oksfjord og Straumfjord, n = 24'
+#tmp$label[tmp$Stasjon=='Sandnesfjord'] <- 'Sandnesfjord, n = 18'
 
 
 # Create points of interest
@@ -204,23 +206,25 @@ plot2021 <- plot(norway, border = "lightgrey", xlab = "Longetude", ylab = "Latit
 
 # Add points to map
 #?points
-points(tmp$Lengdegrad, tmp$Breddegrad, pch=20, col="green", bg="green", cex=1)
-tmp2 <- tmp[tmp$Stasjon=='Sandnesfjord', ]
-points(tmp2$Lengdegrad, tmp2$Breddegrad, pch=20, col="green", bg="green", cex=1)
+plot2021 <-plot2021+points(tmp$Lengdegrad, tmp$Breddegrad, pch=20, col="green", bg="green", cex=1)
+#tmp2 <- tmp[tmp$Stasjon=='Sandnesfjord', ]
+#plot2021 <-plot2021+points(tmp2$Lengdegrad, tmp2$Breddegrad, pch=20, col="green", bg="green", cex=1)
 
 
-points(mhc_rivers$longitude, mhc_rivers$latitude, pch=20, col="red", bg="red", cex=1)
+plot2021 <-plot2021+points(mhc_rivers$longitude, mhc_rivers$latitude, pch=20, col="red", bg="red", cex=1)
 
+str(tmp)
 # Add place names to map
-text(tmp$Lengdegrad, tmp$Breddegrad, labels=tmp$label, cex=0.75, pos=2)
+plot2021 <-plot2021+text(tmp$Lengdegrad, tmp$Breddegrad, labels=tmp$label, cex=0.75, pos=2)
 
 # axis
-axis(1, tcl=0.5, cex.axis=1, col = "lightgrey", at = c(4,13,22,31), col.axis = "lightgrey")
-axis(2, tcl=0.5, cex.axis=1, col = "lightgrey", at = c(58,62,66,70), col.axis = "lightgrey")
+plot2021 <-plot2021+axis(1, tcl=0.5, cex.axis=1, col = "lightgrey", at = c(4,13,22,31), col.axis = "lightgrey")
+plot2021 <-plot2021+axis(2, tcl=0.5, cex.axis=1, col = "lightgrey", at = c(58,62,66,70), col.axis = "lightgrey")
 
 # Scale bar
-scalebar(400, below="km",type="bar", divs=4, xy=c(22.2,58.5), lonlat=TRUE, adj=c(0, -2), cex=1, col = "lightgrey")
+plot2021 <-plot2021+scalebar(400, below="km",type="bar", divs=4, xy=c(22.2,58.5), lonlat=TRUE, adj=c(0, -2), cex=1, col = "lightgrey")
 
+ggsave(plot2021, file="./data/modified_data/nalo_locations_to_kristi_141122.tiff", units="cm", width=35, height=50, dpi=600, compression = 'lzw', limitsize = FALSE)
 
 
 #MHC sampling rivers suggested by sten
