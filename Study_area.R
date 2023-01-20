@@ -176,7 +176,7 @@ summary(as.factor(meta$Stasjon))
 meta$Stasjon[meta$Stasjon=='Ytre Årdalsfjord'] <- "Ytre_Årdalsfjord"
 meta$Stasjon[meta$Stasjon=='Indre Etne'] <- "Etne"
 str(meta)
-tmp <- meta[meta$Lengde_tot>199,] %>%
+tmp <- meta[meta$Lengde_tot>150,] %>%
   group_by(Stasjon) %>%
   dplyr::summarise (Lengdegrad, Breddegrad, sample_size = n(), min_size = min(Lengde_tot))
 tmp <- tmp[!duplicated(tmp$Stasjon), ]
