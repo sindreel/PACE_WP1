@@ -9,11 +9,17 @@ rm(list = ls(all = TRUE))
 
 library(ggplot2)
 library(gridExtra)
-
+library(data.table)
 meta <- read.csv("./data/raw_data/meta_complete.csv", sep = ";")
 str(meta)
 
 mhc_rivers <- read.csv("./data/raw_data/MHC_locations_from_sten.csv", sep = ";")
+str(mhc_rivers)
+mhc_rivers <- mhc_rivers[c(1,5,6)]
+new_row    <- data.table("Elv" = "Agde_21", "longitude" = 9.64085940, "latitude" = 63.62240561)                         
+new_row1    <- data.table("Elv" = "Moen_21", "longitude" = 11.43807395, "latitude" = 64.69273930)
+new_row2    <- data.table("Elv" = "Oksf_14_15", "longitude" = 21.32555246, "latitude" = 69.90711389) 
+mhc_rivers <- rbind(mhc_rivers, new_row, new_row1, new_row2)
 
 
 #######################################################################
@@ -54,7 +60,9 @@ tmp$label[tmp$Stasjon=='Oksfjordhamn'] <- ''
 tmp$label[tmp$Stasjon=='Straumfjord'] <- ''
 tmp$label[tmp$Stasjon=='Oksfjord'] <- 'Oksfjord og Straumfjord, n = 24'
 tmp$label[tmp$Stasjon=='Sandnesfjord'] <- 'Sandnesfjord, n = 18'
-
+sindre_locations <- tmp[c(1,2,3)]
+names(sindre_locations) <- c("station_name", "lat", "long")
+write.csv(sindre_locations, ("./data/modified_data/sindre_locations.csv"), row.names = FALSE)
 
 # Create points of interest
 #place <- c("Midelt", "Khenifra", "Fes", "RABAT", "Beni-Mellal", "Tangier")
@@ -64,6 +72,12 @@ tmp$label[tmp$Stasjon=='Sandnesfjord'] <- 'Sandnesfjord, n = 18'
 # Crop DEM
 norway <- crop(norway, extent(0, 57.5, 37, 71.5))
 
+
+tmp <- meta %>%
+  group_by(Stasjon) %>%
+  dplyr::summarise (Lengdegrad, Breddegrad, sample_size = n())
+tmp <- tmp[!duplicated(tmp$Stasjon), ]
+tmp$label <- tmp$Stasjon
 
 
 
@@ -79,10 +93,11 @@ tmp2 <- tmp[tmp$Stasjon=='Sandnesfjord', ]
 points(tmp2$Lengdegrad, tmp2$Breddegrad, pch=20, col="green", bg="green", cex=1)
 
 points(mhc_rivers$longitude, mhc_rivers$latitude, pch=20, col="red", bg="red", cex=1)
+text(mhc_rivers$longitude, mhc_rivers$latitude, labels=mhc_rivers$Elv, cex=0.75, pos=2)
 
 
 # Add place names to map
-text(tmp$Lengdegrad, tmp$Breddegrad, labels=tmp$label, cex=0.75, pos=2)
+text(tmp$Lengdegrad, tmp$Breddegrad, labels=tmp$label, cex=0.75, pos=3)
 
 # axis
 axis(1, tcl=0.5, cex.axis=1, col = "lightgrey", at = c(4,13,22,31), col.axis = "lightgrey")
