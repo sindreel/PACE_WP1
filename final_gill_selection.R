@@ -10,7 +10,6 @@ library(gridExtra)
 meta <- read.csv("./data/modified_data/meta_complete_141122.csv", sep = ";")
 mhc_rivers <- read.csv("./data/modified_data/MCH_locations_from_sten.csv", sep = ";")
 
-
 #First, let's load the first shapefile of Norway into R
 #shape_zip_link <- "https://www.eea.europa.eu/data-and-maps/data/eea-reference-grids-2/gis-files/norway-shapefile/at_download/file"
 #dir.create("data/shapefiles", showWarnings = FALSE, recursive = TRUE)
