@@ -51,3 +51,9 @@ URL_PACE_sampling_sheets_2020 <- "https://ntnu.box.com/shared/static/b7uonhrnjop
 download.file(url=URL_PACE_sampling_sheets_2020,destfile="./data/raw_data/PACE_WP1_Sampling_sheets_2020.csv")  
 
 
+#Pace WP1 individual assays
+WP1_individual_assays <- "https://ntnu.box.com/shared/static/y53xx4smjnrswvk2nz1lt2jmeqbde5nq.csv"
+download.file(url=WP1_individual_assays,destfile="./data/raw_data/WP1_individual_assays.csv")  
+
+
+
