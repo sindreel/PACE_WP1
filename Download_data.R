@@ -46,6 +46,30 @@ download.file(url=URL_NALO_2021_keka,destfile="./data/raw_data/NALO_2021_keka.cs
 URL_NALO_2020 <- "https://ntnu.box.com/shared/static/lv7vzc1823ngfagdg9gp75qbvwfw2spw.csv"
 download.file(url=URL_NALO_2020,destfile="./data/raw_data/NALO_2020.csv")  
 
+
+#NALO2022-data
+URL_NALO_2022 <- "https://ntnu.box.com/shared/static/n1vbl9lh1uvl9xxcsokj85k8ypcw2ig6.csv"
+download.file(url=URL_NALO_2022,destfile="./data/raw_data/NALO_2022.csv")  
+
+
+#NALO2021-data alle data
+URL_NALO_2021_all <- "https://ntnu.box.com/shared/static/w8ydu27xrkpv1a5nkf5jfpnzo5l5qovs.csv"
+download.file(url=URL_NALO_2021_all,destfile="./data/raw_data/NALO_2021_all.csv")  
+
+
+#NALO2020_2022-data alle data
+URL_NALO_2020_2022 <- "https://ntnu.box.com/shared/static/4qnt14gn48er6tak1lz0ra2ge4hpi3fc.csv"
+download.file(url=URL_NALO_2020_2022,destfile="./data/raw_data/NALO_2020_2022.csv")  
+
+
+
+#all_analysed_wp1_samples
+URL_WP1_samples <- "https://ntnu.box.com/shared/static/ud5a1hdeh03q84tdpkx8k4e2z81v6y70.csv"
+download.file(url=URL_WP1_samples,destfile="./data/raw_data/all_analysed_WP1_samples.csv")  
+
+
+
+
 #PACE_sampling_sheets_2020
 URL_PACE_sampling_sheets_2020 <- "https://ntnu.box.com/shared/static/b7uonhrnjopblutuq6d5dewigv6un534.csv"
 download.file(url=URL_PACE_sampling_sheets_2020,destfile="./data/raw_data/PACE_WP1_Sampling_sheets_2020.csv")  
