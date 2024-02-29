@@ -33,7 +33,7 @@ str(dat)
 navn <- gsub(".", " ", navn, fixed = TRUE)
 names(dat) <- navn
 dat$location
-rlist::list.reverse(x)
+#rlist::list.reverse(x)
 y_level_names <- dat$location
 y_level_names <- rlist::list.reverse(y_level_names)
 x_level_names <- c("Candidatus Branchiomonas cysticola", "Ichthyobodo","Piscichlamydia salmonis" , "Candidatus Syngnamydia salmonis" , "Paranucleospora theridion"    ,      "Parvicapsula pseudobranchicola" ,    "Loma salmonae"    ,                 
@@ -46,13 +46,27 @@ dat <- dat %>%
 head(dat)
 dat$log_copy_number <- ''
 dat$log_copy_number<- log(dat$value)
+dat$value[dat$value<=0] <- 0
+dat$value[dat$value<0] <-
+dat$log_copy_number[dat$log_copy_number<0] <- 0
+
+str(dat)
+tmp <- dat %>%
+  group_by(assay) %>%
+  dplyr::summarise(max_value = max(log_copy_number))
+
+dat <- merge(dat, tmp, by="assay", all.x=TRUE)
 
 head(dat)
+dat$RIB <- dat$log_copy_number/dat$max_value
+dat$RIB[dat$RIB<=0] <- NA
+dat$RIB[dat$RIB=='NaN'] <- NA
 
-p1 <-ggplot(dat, aes(factor(assay, levels = x_level_names), factor(location, levels=y_level_names), fill=log_copy_number)) +
+p1 <-ggplot(dat, aes(factor(assay, levels = x_level_names), factor(location, levels=y_level_names), fill=RIB)) +
   geom_tile() + xlab("Pathogen") + ylab("Location") +
   scale_fill_viridis() + theme_classic(base_size = 18) + theme(axis.text.x = element_text(angle = 50, vjust = 1, hjust = 1))# + scale_fill_continuous(name = "Dose")
+p1
 
-ggsave(p1, file="./data/modified_data/heatmap_pathogens_pooled.tiff", units="cm", width=25, height=25, dpi=600, compression = 'lzw', limitsize = FALSE)
+ggsave(p1, file="./data/modified_data/heatmap_pathogens_pooled_RIB.tiff", units="cm", width=25, height=25, dpi=600, compression = 'lzw', limitsize = FALSE)
 
                                                                                                                                        
