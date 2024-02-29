@@ -68,5 +68,6 @@ p1 <-ggplot(dat, aes(factor(assay, levels = x_level_names), factor(location, lev
 p1
 
 ggsave(p1, file="./data/modified_data/heatmap_pathogens_pooled_RIB.tiff", units="cm", width=25, height=25, dpi=600, compression = 'lzw', limitsize = FALSE)
+ggsave(p1, file="./data/modified_data/heatmap_pathogens_pooled_RIB.png", units="cm", width=25, height=25, dpi=600, limitsize = FALSE)
 
                                                                                                                                        
