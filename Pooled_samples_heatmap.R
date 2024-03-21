@@ -85,7 +85,10 @@ ggsave("./data/modified_data/log_copy_number_and_RIB.png", p3, units="cm", width
 
 
 
+dat
+
 ggsave(p1, file="./data/modified_data/heatmap_pathogens_pooled_RIB.tiff", units="cm", width=25, height=25, dpi=600, compression = 'lzw', limitsize = FALSE)
 ggsave(p1, file="./data/modified_data/heatmap_pathogens_pooled_RIB.png", units="cm", width=25, height=25, dpi=600, limitsize = FALSE)
 
-                                                                                                                                       
+saveRDS(tmp, "./data/modified_data/Site_RIB_from_copy_numbers.RDS")
+saveRDS(dat, "./data/modified_data/copy_numbers_wp1.RDS")                                                                                                                                       
